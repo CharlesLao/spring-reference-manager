@@ -1,0 +1,115 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>查找好友</title>
+    <meta name="description" content="这是一个 index 页面"/>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/paginate/style.css}"/>
+    <script th:src="@{/scripts/jquery-2.1.4.js}"></script>
+    <script th:src="@{/scripts/amaz/amazeui.min.js}"></script>
+    <script th:src="@{/scripts/amaz/app.js}"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header" id="header">
+</header>
+<div class="am-cf admin-main">
+    <div class="nav-navicon admin-main admin-sidebar">
+        <div style="color:#aeb2b7; margin: 10px 0 0 0;" id="hello"> </div>
+        <div class="sideMenu" id="sideMenu">
+        </div>
+    </div>
+    <div class=" admin-content">
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        首页
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        用户查找
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-biaogelist">
+            <div class="listbiaoti am-cf">
+                <ul>
+                    用户查找
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+            <div class="fbneirong" style="min-height: 150px">
+                <form class="am-form">
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">用户名：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="username" name="username" placeholder="请输入用户名"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="you" style="margin-left: 11%;">
+                            <div id="search" class="am-btn am-btn-success am-radius">搜索用户</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="listbiaoti am-cf" style="display: none" id="resultTitle">
+                <ul>
+                    搜索结果
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+            <form class="am-form am-g" style="display: none" id="resultForm">
+                <!--<div id="page" class="am-pagination am-fr"></div>-->
+                <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="userTable">
+                    <thead>
+                    <tr class="am-success">
+                        <th class="table-title">用户名</th>
+                        <th width="230px" class="table-set">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="resultTable">
+                    <tr>
+                        <td><input type="checkbox"/></td>
+                        <td>user1</td>
+                        <td><div class="am-btn-toolbar">
+                            <div class="am-btn-group am-btn-group-xs">
+                                <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" ><span class="am-icon-plus" title="添加好友"></span> </a>
+                            </div>
+                        </div></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr />
+                <p>
+                </p>
+            </form>
+
+            <div class="foods">
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/scripts/paginate/jquery.paginate.js}"></script>
+<script th:src="@{/scripts/common.js}"></script>
+<script th:src="@{/scripts/friend/friendSearch.js}"></script>
+
+</body>
+</html>

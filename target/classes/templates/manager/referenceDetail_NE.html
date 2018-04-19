@@ -1,0 +1,174 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>文献管理</title>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/paginate/style.css}"/>
+    <script th:src="@{/scripts/jquery-2.1.4.js}"></script>
+    <script th:src="@{/scripts/amaz/amazeui.min.js}"></script>
+    <script th:src="@{/scripts/amaz/app.js}"></script>
+    <script th:src="@{/scripts/jquery-validation/js/jquery.validate.js}"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header" id="header">
+</header>
+<div class="am-cf admin-main">
+    <div class="nav-navicon admin-main admin-sidebar">
+        <div style="color:#aeb2b7; margin: 10px 0 0 0;" id="hello"> </div>
+        <div class="sideMenu" id="sideMenu">
+        </div>
+    </div>
+    <div class=" admin-content">
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        首页
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        文献管理
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        文献详情
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-biaogelist">
+            <div class="listbiaoti am-cf">
+                <ul>
+                    文献条目详情
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+
+
+            <div class="fbneirong">
+                <div class="am-form" id="referenceForm">
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">标题：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="name" name="name" disabled="disabled" th:value="${referenceVo.name}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">作者：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="authors" name="authors" disabled="disabled" th:value="${referenceVo.authors}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">年份：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="year" name="year" disabled="disabled" th:value="${referenceVo.year}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">会议名：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="conference" name="conference" disabled="disabled" th:value="${referenceVo.conference}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">会议地点：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="hydd" name="hydd" disabled="disabled" placeholder="请输入会议地点" th:value="${referenceVo.hydd}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">卷号：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="jh" name="jh" disabled="disabled" placeholder="请输入卷号" th:value="${referenceVo.jh}"/>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">期号：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="qh" name="qh" disabled="disabled" placeholder="请输入期号" th:value="${referenceVo.qh}"/>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">开始页码：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="beginPage" name="beginPage" disabled="disabled" th:value="${referenceVo.beginPage}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">结束页码：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="endPage" name="endPage"  disabled="disabled" th:value="${referenceVo.endPage}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">文献来源：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="lx" name="lx" disabled="disabled" th:value="${referenceVo.lx}" />
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="researchId" name="researchId" th:value="${researchVo.id}" />
+
+                    <form class="am-form am-g"  id="attachmentForm" style="display: none">
+                        <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="attachmentTable">
+                            <thead>
+                            <tr class="am-success">
+                                <th class="table-id am-text-center">上传时间</th>
+                                <th class="table-title">附件名称</th>
+                                <th width="130px" class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="resultTableContent">
+                            <tr th:each="attachment,attachmentStat : ${attachmentVoList}" th:id="${'p'+attachmentStat.count}">
+                                <input type="hidden" th:value="${attachmentStat.size}" id="attachmentVoListSize"/>
+                                <th:block>
+                                    <td class="am-text-center" th:text="${attachment.time}"></td>
+                                    <td th:text="${attachment.name}"></td>
+
+                                    <td><div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" th:href="${'/manager/downloadAttachment?attachmentId='+attachment.id}"><span class="am-icon-download" title="下载附件"></span> </a>
+                                        </div>
+                                    </div></td>
+                                </th:block>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="foods">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script th:src="@{/scripts/common.js}"></script>
+<script th:src="@{/scripts/manager/referenceDetail.js}"></script>
+</body>
+</html>

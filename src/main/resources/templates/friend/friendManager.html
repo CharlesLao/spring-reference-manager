@@ -1,0 +1,249 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>好友管理</title>
+    <meta name="description" content="这是一个 index 页面"/>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/paginate/style.css}"/>
+    <script th:src="@{/scripts/jquery-2.1.4.js}"></script>
+    <script th:src="@{/scripts/amaz/amazeui.min.js}"></script>
+    <script th:src="@{/scripts/amaz/app.js}"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header" id="header">
+</header>
+<div class="am-cf admin-main">
+    <div class="nav-navicon admin-main admin-sidebar">
+        <div style="color:#aeb2b7; margin: 10px 0 0 0;" id="hello"> </div>
+        <div class="sideMenu" id="sideMenu">
+        </div>
+    </div>
+    <div class=" admin-content">
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        首页
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        好友管理
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-biaogelist">
+            <div class="listbiaoti am-cf">
+                <ul>
+                    好友管理
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+            <div class="am-tabs am-margin">
+                <ul class="am-tabs-nav am-nav am-nav-tabs">
+                    <li id="li1" class="am-active"><a href="#tab1" >好友申请</a></li>
+                    <li id="li2" ><a href="#tab2" >好友列表</a></li>
+                    <li id="li3" ><a href="#tab3" >好友搜索</a></li>
+                    <li id="li4" ><a href="#tab4">消息管理</a></li>
+                </ul>
+                <div class="am-tabs-bd">
+                    <input type="hidden" id="tabId" th:value="${tabId}" />
+
+
+
+                    <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                        <form class="am-form am-g">
+                            <div class="am-btn-group am-btn-group-xs" id="invitationPanel">
+                                <button type="button" class="am-btn am-btn-default" id="deleteAllInvitation"><span class="am-icon-trash-o"></span> 删除</button>
+                            </div>
+                            <!--<div id="page" class="am-pagination am-fr"></div>-->
+                            <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="invitationTable">
+                                <thead>
+                                <tr class="am-success">
+                                    <th class="table-check"><input type="checkbox"  id="checkAllInvitation"/></th>
+                                    <th class="table-title">用户名</th>
+                                    <th class="table-type">申请时间</th>
+                                    <th class="table-author am-hide-sm-only">申请理由</th>
+                                    <th width="130px" class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="invitation,invitationStat : ${invitationVoList}" th:id="${'p'+invitationStat.count}">
+                                    <input type="hidden" th:value="${invitationStat.size}" id="invitationListSize"/>
+                                    <th:block>
+                                        <td><input type="checkbox" th:id="${'checkInvitation'+invitationStat.count}" th:value="${invitation.id}"/></td>
+                                        <td th:text="${invitation.username}"></td>
+                                        <td th:text="${invitation.time}"></td>
+                                        <td th:text="${invitation.reason}"></td>
+                                        <td><div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" title="同意请求" th:href="${'/friend/acceptInvitation?invitationId='+invitation.id}"><span class="am-icon-check"></span> </a>
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-danger am-round" title="拒绝请求" th:href="${'/friend/deleteInvitation?invitationId='+invitation.id}" onclick="return confirm('确定要删除吗？')"><span class="am-icon-trash-o" ></span></a>
+                                            </div>
+                                        </div></td>
+                                    </th:block>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <p>
+                            </p>
+                        </form>
+                    </div>
+
+
+
+
+                    <div class="am-tab-panel am-fade" id="tab2">
+                        <form class="am-form am-g">
+                            <div class="am-btn-group am-btn-group-xs" id="friendPanel">
+                                <button type="button" class="am-btn am-btn-default" id="deleteAllFriend"><span class="am-icon-trash-o"></span> 删除</button>
+                            </div>
+                            <!--<div id="page" class="am-pagination am-fr"></div>-->
+                            <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="friendTable">
+                                <thead>
+                                <tr class="am-success">
+                                    <th class="table-check"><input type="checkbox"  id="checkAllFriend"/></th>
+                                    <th class="table-title">用户名</th>
+                                    <th width="130px" class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="friend,friendStat : ${friendVoList}" th:id="${'p'+friendStat.count}">
+                                    <input type="hidden" th:value="${friendStat.size}" id="friendListSize"/>
+                                    <th:block>
+                                        <td><input type="checkbox" th:id="${'checkFriend'+friendStat.count}" th:value="${friend.id}"/></td>
+                                        <td th:text="${friend.username}"></td>
+                                        <td><div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" title="发送消息" th:href="${'/massage/addMassage?friendId='+friend.id}"><span class="am-icon-comments"></span> </a>
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-danger am-round" title="删除好友" th:href="${'/massage/deleteFriend?friendId='+friend.id}" onclick="return confirm('确定要删除吗？')"><span class="am-icon-trash-o" ></span></a>
+                                            </div>
+                                        </div></td>
+                                    </th:block>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <p>
+                            </p>
+                        </form>
+                    </div>
+
+
+
+
+                    <div class="am-tab-panel am-fade" id="tab3">
+                        <div class="fbneirong" style="min-height: 150px">
+                            <form class="am-form">
+                                <div class="am-form-group am-cf">
+                                    <div class="zuo">用户名：</div>
+                                    <div class="you">
+                                        <input type="text" class="am-input-sm" id="username" name="username" placeholder="请输入用户名"/>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group am-cf">
+                                    <div class="you" style="margin-left: 11%;">
+                                        <div id="search" class="am-btn am-btn-success am-radius">搜索用户</div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="listbiaoti am-cf" style="display: none" id="resultTitle">
+                            <ul>
+                                搜索结果
+                            </ul>
+                        </div>
+
+                        <form class="am-form am-g" style="display: none" id="resultForm">
+                            <!--<div id="page" class="am-pagination am-fr"></div>-->
+                            <div class="am-btn-group am-btn-group-xs" id="resultPanel" style="display: none">
+
+                            </div>
+                            <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="resultTable" style="display: none">
+                                <thead>
+                                <tr class="am-success">
+                                    <th class="table-title">用户名</th>
+                                    <th width="230px" class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="resultTableContent">
+                                </tbody>
+                            </table>
+                            <hr />
+                            <p>
+                            </p>
+                        </form>
+                    </div>
+
+                    <div class="am-tab-panel am-fade" id="tab4">
+                        <form class="am-form am-g">
+                            <div class="am-btn-group am-btn-group-xs" id="massagePanel">
+                                <button type="button" class="am-btn am-btn-default" id="deleteAllMassage"><span class="am-icon-trash-o"></span> 删除</button>
+                            </div>
+                            <!--<div id="page" class="am-pagination am-fr"></div>-->
+                            <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="massageTable">
+                                <thead>
+                                <tr class="am-success">
+                                    <th class="table-check"><input type="checkbox"  id="checkAllMassage"/></th>
+                                    <th width="230px" class="table-title">发送人</th>
+                                    <th width="230px" class="table-title">接受人</th>
+                                    <th class="table-author">主题</th>
+                                    <th width="130px" class="table-set">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="massage,massageStat : ${massageVoList}" th:id="${'p'+massageStat.count}">
+                                    <input type="hidden" th:value="${massageStat.size}" id="massageListSize"/>
+                                    <th:block>
+                                        <td><input type="checkbox" th:id="${'checkMassage'+massageStat.count}" th:value="${massage.id}"/></td>
+                                        <td th:text="${'由 '+ massage.fromUser.username}"></td>
+                                        <td th:text="${'到 '+ massage.toUser.username}"></td>
+                                        <td th:text="${massage.subject}"></td>
+                                        <td><div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" title="查看消息" th:href="${'/massage/massageDetail?massageId='+massage.id}"><span class="am-icon-search"></span> </a>
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-danger am-round" title="删除消息" th:href="${'/massage/deleteMassage?massageId='+massage.id}" onclick="return confirm('确定要删除吗？')"><span class="am-icon-trash-o" ></span></a>
+                                                <th:block th:if="${massage.yd}!='已读'">NEW!</th:block>
+                                            </div>
+                                        </div></td>
+                                    </th:block>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <p>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="foods">
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/scripts/paginate/jquery.paginate.js}"></script>
+<script th:src="@{/scripts/common.js}"></script>
+<script th:src="@{/scripts/friend/friendManager.js}"></script>
+<script th:src="@{/scripts/friend/friendSearch.js}"></script>
+</body>
+</html>

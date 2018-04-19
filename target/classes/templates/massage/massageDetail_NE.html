@@ -1,0 +1,159 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>消息详情</title>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/paginate/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sweetalert/sweetalert.css}"/>
+    <script th:src="@{/scripts/jquery-2.1.4.js}"></script>
+    <script th:src="@{/scripts/amaz/amazeui.min.js}"></script>
+    <script th:src="@{/scripts/amaz/app.js}"></script>
+    <script th:src="@{/scripts/jquery-validation/js/jquery.validate.js}"></script>
+    <script th:src="@{/scripts/sweetalert/sweetalert.min.js}"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header" id="header">
+</header>
+<div class="am-cf admin-main">
+    <div class="nav-navicon admin-main admin-sidebar">
+        <div style="color:#aeb2b7; margin: 10px 0 0 0;" id="hello"> </div>
+        <div class="sideMenu" id="sideMenu">
+        </div>
+    </div>
+    <div class=" admin-content">
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        首页
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        好友管理
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        消息详情
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-biaogelist">
+            <div class="listbiaoti am-cf">
+                <ul>
+                    消息详情
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+
+
+            <div class="fbneirong">
+                <form class="am-form" id="referenceForm">
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">主题：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="subject" name="subject" disabled="disabled" th:value="${massageVo.subject}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">发送人：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="fromUser" name="fromUser" disabled="disabled" th:value="${massageVo.fromUser.username}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">接受人：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="toUser" name="toUser" disabled="disabled" th:value="${massageVo.toUser.username}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">时间：</div>
+                        <div class="you">
+                            <input type="text" class="am-input-sm" id="time" name="time" disabled="disabled" th:value="${massageVo.time}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">内容：</div>
+                        <div class="you">
+                            <textarea style="height:200px" id="content" name="content" disabled="disabled" th:text="${massageVo.content}"/>
+                        </div>
+                    </div>
+                    <form class="am-form am-g"  id="shareReferenceForm">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <button type="button" class="am-btn am-btn-default" id="addToResearch"><span class="am-icon-plus"></span>添加到我的研究</button>
+                        </div>
+                        <!--<div id="page" class="am-pagination am-fr"></div>-->
+                        <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" id="referenceTable">
+                            <thead>
+                            <tr class="am-success">
+                                <th class="table-check"><input type="checkbox"  id="checkAll"/></th>
+                                <th class="table-id am-text-center">年份</th>
+                                <th class="table-title">作者</th>
+                                <th class="table-type">文献名</th>
+                                <th class="table-author am-hide-sm-only">会议名</th>
+
+                                <th width="130px" class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:if="${not #lists.isEmpty(massageVo.referenceVoList)}">
+                                <input id="referenceVoList" type="hidden" th:value="${massageVo.referenceVoList}"/>
+                                <tr th:each="reference,referenceStat : ${massageVo.referenceVoList}" th:id="${'p'+referenceStat.count}">
+                                    <input type="hidden" th:value="${referenceStat.size}" id="referenceVoListSize"/>
+                                    <th:block>
+                                        <td><input type="checkbox" th:id="${'check'+referenceStat.count}" th:value="${reference.id}"/></td>
+                                        <td class="am-text-center" th:text="${reference.year}"></td>
+                                        <td th:text="${reference.authors}"></td>
+                                        <td th:text="${reference.name}"></td>
+                                        <td th:text="${reference.conference}"></td>
+                                        <td><div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs">
+                                                <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" th:href="${'/manager/referenceDetail?referenceId='+reference.id}"><span class="am-icon-search" title="查看条目"></span> </a>
+                                            </div>
+                                        </div></td>
+                                    </th:block>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </form>
+                    <th:block th:if="${massageVo.fromUser}!=wo">
+                        <div class="am-form-group am-cf" id="replyPanel">
+                            <div class="you" style="margin-left: 11%;">
+                                <a id="reply" th:href="${'/massage/reply?massageId='+massageVo.id}" class="am-btn am-btn-success am-radius">回信</a>
+                            </div>
+                        </div>
+                    </th:block>
+                </form>
+            </div>
+
+            <div class="foods">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script th:src="@{/scripts/common.js}"></script>
+<script th:src="@{/scripts/massage/massageDetail.js}"></script>
+</body>
+</html>

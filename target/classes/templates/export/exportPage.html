@@ -1,0 +1,164 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>文献管理</title>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}"/>
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}"/>
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+    <link rel="stylesheet" th:href="@{/css/paginate/style.css}"/>
+    <script th:src="@{/scripts/jquery-2.1.4.js}"></script>
+    <script th:src="@{/scripts/amaz/amazeui.min.js}"></script>
+    <script th:src="@{/scripts/amaz/app.js}"></script>
+    <script th:src="@{/scripts/jquery-validation/js/jquery.validate.js}"></script>
+</head>
+
+<body>
+<header class="am-topbar admin-header" id="header">
+</header>
+<div class="am-cf admin-main">
+    <div class="nav-navicon admin-main admin-sidebar">
+        <div style="color:#aeb2b7; margin: 10px 0 0 0;" id="hello"> </div>
+        <div class="sideMenu" id="sideMenu">
+        </div>
+    </div>
+    <div class=" admin-content">
+        <div class="daohang">
+            <ul>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        首页
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        文献管理
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs">
+                        导出文献
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="admin-biaogelist">
+            <div class="listbiaoti am-cf">
+                <ul>
+                    导出文献条目
+                </ul>
+                <!--data-am-modal="{target: '#my-popup'}" 弹出层 ID  弹出层 190行 开始  271行结束-->
+
+            </div>
+
+
+            <div class="fbneirong">
+                <div class="am-form" id="referenceForm">
+                    <input type="hidden" th:value="${referenceIdList}" id="referenceIdList"/>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">导出文献：</div>
+                        <div class="you">
+                            <textarea id="referenceList" style="height: 200px" name="referenceList"><th:block th:each="styledReference: ${referenceWithStyle}"><th:block th:text="${styledReference}"/>
+</th:block></textarea>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-cf">
+                        <div class="zuo">导出格式：</div>
+                        <div class="you">
+                            <select data-am-selected="{btnSize: 'sm'}" id="style" name="style">
+                                <option th:each="style,styleStat : ${allStyle}" th:value="${style.getId()}" th:text="${style.getName()}">
+                                </option>
+                            </select>
+                            <div id="showAddStyle" class="am-btn am-btn-success am-radius">自定义格式</div>
+                        </div>
+                    </div>
+
+                    <div class="am-form" id="newStyleForm" style="display: none">
+                        <div class="am-form-group am-cf">
+                            <div class="zuo">格式名称：</div>
+                            <div class="you">
+                                <input type="text" class="am-input-sm" id="newStyleName" name="newStyleName" placeholder="请输入风格名称"/>
+                            </div>
+                        </div>
+                        <div class="am-form-group am-cf">
+                            <div class="zuo">格式内容：</div>
+                            <div class="you">
+                                <div contenteditable="true" class="contenteditable" id="expression" style="height: 200px" name="expression"></div>
+                                <input type="hidden" value="" id="hiddenExpression"/>
+                            </div>
+                        </div>
+                        <div class="am-form-group am-cf">
+                            <div class="zuo">插入字段：</div>
+                            <div class="you">
+                                <div id="bt"  class="am-btn am-btn-success am-radius">标题</div>
+                                <div id="zz" class="am-btn am-btn-success am-radius">作者</div>
+                                <div id="nf"  class="am-btn am-btn-success am-radius">年份</div>
+                                <div id="qsy"  class="am-btn am-btn-success am-radius">起始页</div>
+                                <div id="mwy"  class="am-btn am-btn-success am-radius">末尾页</div>
+                                <div id="hym"  class="am-btn am-btn-success am-radius">会议名</div>
+                                <div id="qh"  class="am-btn am-btn-success am-radius">期号</div>
+                                <div id="jh"  class="am-btn am-btn-success am-radius">卷号</div>
+                                <div id="hydd"  class="am-btn am-btn-success am-radius">出版地</div>
+                            </div>
+                        </div>
+                        <div class="am-form-group am-cf">
+                            <div class="zuo">其他选项</div>
+                            <div class="you">
+                                <div class="am-btn-group" data-am-button="true">
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="checkbox" id="andLastAuthor"/> 最后一位作者用and隔开
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="checkbox" id="etalAuthor"/> 超过三位作者使用et al.代替
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="checkbox" id="upperFirstname"/> 作者first name使用首字母
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="checkbox" id="upperMiddlename"/> 作者middle name使用首字母
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group am-cf">
+                        <div class="you" style="margin-left: 11%;">
+                            <div id="output" onclick="output" class="am-btn am-btn-success am-radius">导出条目</div>
+                            <div id="exportAttachment"  class="am-btn am-btn-success am-radius">打包导出PDF</div>
+                            <div id="saveStyle" style="display: none" class="am-btn am-btn-success am-radius" >新建格式</div>
+                            </div>
+                    </div>
+
+                    <form class="am-form" id="resultForm">
+                        <div class="am-form-group am-cf">
+                            <div class="zuo">结果预览：</div>
+                            <div class="you">
+                                <textarea id="dcwx" style="height: 200px" name="dcwx" >
+                                </textarea>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="foods">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script th:src="@{/scripts/common.js}"></script>
+<script th:src="@{/scripts/export/exportPage.js}"></script>
+
+</body>
+</html>
