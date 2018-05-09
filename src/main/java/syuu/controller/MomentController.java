@@ -37,7 +37,6 @@ public class MomentController {
         mv.addObject("tabId",tabId);
         mv.addObject("momentVoList",momentVoList);
         return mv;
-        // <div class="zuo" style="line-height:inherit;margin-bottom: 0">评论：</div>
     }
 
     @RequestMapping("/getBlockUserList")
@@ -77,7 +76,7 @@ public class MomentController {
                 referenceVoList.add(referenceService.getReferenceById(userId));
             }
         }
-        MomentVo momentVo = new MomentVo(0,content,new Date(),user,blockList,referenceVoList,new ArrayList<CommentVo>(),liker_num,ydCommentVoList);
+        MomentVo momentVo = new MomentVo(0,content,new Date(),user,blockList,referenceVoList,new ArrayList<CommentVo>(),liker_num,ydCommentVoList,user);
         momentService.savenNewMoment(momentVo);
         Map<String,Object> map = new HashMap<String, Object>();
         return map;
