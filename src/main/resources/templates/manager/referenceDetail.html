@@ -146,6 +146,7 @@
                                 <th width="130px" class="table-set">操作</th>
                             </tr>
                             </thead>
+
                             <tbody id="resultTableContent">
                             <tr th:each="attachment,attachmentStat : ${attachmentVoList}" th:id="${'p'+attachmentStat.count}">
                                 <input type="hidden" th:value="${attachmentStat.size}" id="attachmentVoListSize"/>
@@ -162,6 +163,7 @@
                                 </th:block>
                             </tr>
                             </tbody>
+
                         </table>
                     </form>
                 </div>

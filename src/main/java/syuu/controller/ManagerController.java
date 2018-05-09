@@ -280,22 +280,5 @@ public class ManagerController {
         map.put("shareReferenceList",shareReferenceList);
         return map;
     }
-    @RequestMapping("/getReferenceList")
-    @ResponseBody
-    public Map<String,Object> getTeferenceList(int momentid)
-    {
-        System.out.println("momentid:"+momentid);
-        MomentVo momentVo=momentService.getMoment(momentid);
 
-        List<ReferenceVo> refernceVoList=momentVo.getReferenceVoList();
-
-        List<ReferenceVo> referencelist=new ArrayList<ReferenceVo>();
-        for(ReferenceVo referenceVo:refernceVoList)
-        {
-            referencelist.add(referenceVo);
-        }
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("referencelist",referencelist);
-        return map;
-    }
 }

@@ -80,28 +80,65 @@
                                 </div>
                                 <th:block th:if="${not #lists.isEmpty(moment.referenceVoList)}">
                                     <div class="am-form-group am-cf">
-                                        <div class="zuo"></div>
-                                        <div class="you">
-                                            <button type="button" class="am-btn am-btn-success am-radius"  style="float: left" th:onclick="'javascript:showReference(\''+${moment.id}+'\');'"  th:text="${'查看该用户分享的'+moment.referenceVoList.size()+'篇文献'}"></button>
-                                        </div>
-                                        <div style="float: left" class="am-form-group am-cf" id="referenceInfoPanel">
-                                            <div>
-                                                文献列表：
-                                            </div>
-
-                                            <div style="float: left" class="you" th:id="${'reference'+moment.id}">
-                                            </div>
+                                        <div class="zuo">
                                         </div>
 
+
+                                        <div  style="float: left" class="you" id="referenceInfoPanel">
+                                            <button type="button" th:id="${'btnReference'+moment.id}" class="am-btn am-btn-success am-radius"  style="float: left" th:onclick="'javascript:showReference(\''+${moment.id}+'\')'"  th:text="${'查看该用户分享的'+moment.referenceVoList.size()+'篇文献'}"></button>
+                                            <div  th:id="${'reference'+moment.id}"></div>
+
+
+                                            <form class="am-form am-g" id="shareReferenceForm">
+                                                <!--<div id="page" class="am-pagination am-fr"></div>-->
+                                                <table width="100%" class="am-table am-table-bordered am-table-radius am-table-striped am-table-hover" th:id="${'referenceTable'+moment.id}" style="display: none">
+                                                    <thead>
+                                                    <tr class="am-success">
+                                                        <th class="table-check"><input type="checkbox"  id="checkAll"/></th>
+                                                        <th class="table-id am-text-center">年份</th>
+                                                        <th class="table-title">作者</th>
+                                                        <th class="table-type">文献名</th>
+                                                        <th class="table-author am-hide-sm-only">会议名</th>
+
+                                                        <th width="130px" class="table-set">操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <input id="referenceVoList" type="hidden" th:value="${moment.referenceVoList}"/>
+                                                    <tr th:each="reference,referenceStat : ${moment.referenceVoList}" th:id="${'p'+referenceStat.count}">
+                                                        <input type="hidden" th:value="${referenceStat.size}" id="referenceVoListSize"/>
+                                                        <th:block>
+                                                            <td><input type="checkbox" th:id="${'check'+referenceStat.count}" th:value="${reference.id}"/></td>
+                                                            <td class="am-text-center" th:text="${reference.year}"></td>
+                                                            <td th:text="${reference.authors}"></td>
+                                                            <td th:text="${reference.name}"></td>
+                                                            <td th:text="${reference.conference}"></td>
+                                                            <td><div class="am-btn-toolbar">
+                                                                <div class="am-btn-group am-btn-group-xs">
+                                                                    <a class="am-btn am-btn-default am-btn-xs am-text-success am-round" th:href="${'/manager/referenceDetail?referenceId='+reference.id}"><span class="am-icon-search" title="查看条目"></span> </a>
+                                                                    <a class="am-btn am-btn-default am-btn-xs am-text-secondary am-round" title="添加条目到我的研究" th:onclick="${'selectResearch('+reference.id+')'}" ><span class="am-icon-plus"></span></a>
+                                                                </div>
+                                                            </div></td>
+                                                        </th:block>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="am-btn am-btn-warning am-radius" th:id="${'hideBtn'+moment.id}"  id="hideBtn" style="display: none;" th:onclick="'javascript:hideReference(\''+${moment.id}+'\')'" >隐藏文献列表</div>
+                                            </form>
+
+
+                                        </div>
                                     </div>
+
+
 
                                 </th:block>
                                 <div class="am-form-group am-cf">
                                     <div class="zuo"></div>
                                     <div class="you">
                                         <div class="am-btn-group am-btn-group-xs">
-                                            <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:like(\''+${moment.id}+'\',\''+${moment.user.id}+'\');'" ><span class="am-icon-heart-o"></span> 点赞<div th:text="${moment.getLike_num()}"></div></button>
-                                            <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:comment(\''+${moment.id}+'\',\''+${moment.user.id}+'\');'" ><span class="am-icon-comments"></span> 评论<div th:text="${moment.commentVoList.size()}"></div></button>
+                                            <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:like(\''+${moment.id}+'\',\''+${moment.user.id}+'\');'" ><span class="am-icon-heart-o" th:text="${'点赞('+moment.getLike_num()+')'}"></span></button>
+                                            <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:comment(\''+${moment.id}+'\',\''+${moment.user.id}+'\');'" ><span class="am-icon-comments" th:text="${'评论('+moment.commentVoList.size()+')'}"></span></button>
 
 
                                         </div>
@@ -110,27 +147,44 @@
 
 
 
-                                    <form class="am-form" >
-
-                                        </form>
 
 
-                                <div class="am-form-group-comment am-cf" >
+
+
                                     <th:block th:if="${not #lists.isEmpty(moment.commentVoList)}">
+                                    <div class="am-form-group-comment am-cf" th:each="comment : ${moment.commentVoList}" >
+                                        <div class="zuo" style="line-height: inherit;"></div>
 
-                                    <div class="you-comment" th:each="comment : ${moment.commentVoList}" >
-                                        <div  class="you-comment" th:if="${comment.getCommenttype()} eq '1'" th:text="${comment.getFromUser().getUsername()+'回复了'+comment.getToUser().getUsername()+': '+comment.getContent()}">
+
+                                        <div    th:if="${comment.getCommenttype()} eq '1'" >
+                                        <div class="you-comment"  th:text="${comment.getFromUser().getUsername()+'回复了'+comment.getToUser().getUsername()+': '+comment.getContent()}"></div>
+
+                                            <div style="height: 23px"  th:if="${comment.getFromUser().getId()} eq ${moment.getLoginUser().getId()}" >
+                                                <button type="button" style="height: 22px;width: 55px"  th:onclick="'javascript:deletecomment(\''+${comment.getId()}+'\');'" ><span class="am-icon-trash-o" th:text="删除"></span></button>
+
                                             </div>
 
-                                        <div class="you-comment" th:if="${comment.getCommenttype()} eq '0'" th:text="${comment.getFromUser().getUsername()+' : '+comment.getContent()}">
-                                       </div>
-                                        <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:replycomment(\''+${moment.id}+'\',\''+${moment.user.id}+'\',\''+${comment.getFromUser().getId()}+'\');'" ><span class="am-icon-comments"></span> 回复</button>
-                                        <button type="button" class="am-btn am-btn-default"  style="float: right" th:onclick="'javascript:deletecomment(\''+${comment.getId()}+'\');'" ><span class="am-icon-comments"></span> 删除</button>
+                                            <div style="height: 23px"  th:if="${comment.getFromUser().getId()} ne ${moment.getLoginUser().getId()}" >
+                                                <button type="button"  th:onclick="'javascript:replycomment(\''+${moment.id}+'\',\''+${moment.user.id}+'\',\''+${comment.getFromUser().getId()}+'\');'" ><span style="height: 19px" class="am-icon-comments" th:text="回复"></span></button>
+                                            </div>
+
+                                        </div>
 
 
+                                        <div  th:if="${comment.getCommenttype()} eq '0'" >
+                                        <span class="you-comment" th:text="${comment.getFromUser().getUsername()+' : '+comment.getContent()}"></span>
+
+                                        <div style="height: 23px" th:if="${comment.getFromUser().getId()} ne ${moment.getLoginUser().getId()}" >
+                                            <button type="button"    th:onclick="'javascript:replycomment(\''+${moment.id}+'\',\''+${moment.user.id}+'\',\''+${comment.getFromUser().getId()}+'\');'" ><span class="am-icon-comments" th:text="回复"></span> </button>
+                                        </div>
+
+                                        <div style="height: 23px"  th:if="${comment.getFromUser().getId()} eq ${moment.getLoginUser().getId()}" >
+                                            <button type="button" style="height: 22px" th:onclick="'javascript:deletecomment(\''+${comment.getId()}+'\');'" ><span class="am-icon-trash-o" th:text="删除"></span></button>
+                                        </div>
+                                        </div>
                                     </div>
                                     </th:block>
-                                </div>
+
 
                                 <hr />
                             </form>

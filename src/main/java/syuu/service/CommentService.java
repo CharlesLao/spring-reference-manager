@@ -13,6 +13,7 @@ import syuu.service.VO.CommentVo;
 import syuu.service.VO.YdCommentVo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by liujun on 2018/4/14.
@@ -56,6 +57,20 @@ public class CommentService {
 
     public void deleteComment(int commentid)
     {
+        Comment comment=commentRepository.findOne(commentid);
+
+
+        List<Comment> commentList1=commentRepository.findCommentByFromuserAndTouser(comment.getFromuser(),comment.getTouser());
+        List<Comment> commentList2=commentRepository.findCommentByFromuserAndTouser(comment.getTouser(),comment.getFromuser());
+        for(Comment comment1:commentList1)
+            if(comment1.getTime().before(comment.getTime())==false)
+            commentRepository.delete(commentRepository.findOne(comment1.getId()));
+        for(Comment comment1:commentList2)
+            if(comment1.getTime().before(comment.getTime())==false)
+                commentRepository.delete(commentRepository.findOne(comment1.getId()));
+
+
         commentRepository.delete(commentRepository.findOne(commentid));
+
     }
 }

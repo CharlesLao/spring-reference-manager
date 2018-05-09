@@ -42,7 +42,7 @@ function like(momentid,userid) {
             if(data==0)
             {
                 swal({
-                    title:"警告!",
+                    title:"提示",
                     text:"您已点赞，请勿重复点赞。",
                     type:"success",
                 },function () {
@@ -180,43 +180,31 @@ function deletecomment(commentid)
 }
 
 function showReference(momentid) {
-    var moment=momentid;
+
     var id='reference'+momentid;
-    $.ajax({
-        type:"POST",
-        url: "/manager/getReferenceList",
-        traditional:true,
-        data: {momentid: momentid},
-        dataType:"json",
-        success: function(data){
-            var ReferenceList = data.referencelist;
-           // $('#referenceInfoPanel').hide();
-            var str = "";
-            for(var i=0;i<ReferenceList.length;i++){
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'id: '+ReferenceList[i].id+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'name: '+ReferenceList[i].name+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'authors: '+ReferenceList[i].authors+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'beginPage: '+ReferenceList[i].beginPage+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'endPage: '+ReferenceList[i].endPage+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'conference: '+ReferenceList[i].conference+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'hydd: '+ReferenceList[i].hydd+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'jh: '+ReferenceList[i].jh+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'qh: '+ReferenceList[i].qh+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'fulltext: '+ReferenceList[i].fulltext+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'researchid: '+ReferenceList[i].researchId+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'lx: '+ReferenceList[i].lx+"</div>";
-                str+="<div class=\"you-comment am-radius\" style='float: left' value=\""+ReferenceList[i].id+"\" id='reference"+ReferenceList[i].id+"'>"+'year: '+ReferenceList[i].year+"</div>";
-            }
-            str+="<div class=\"am-btn am-btn-warning am-radius\" style='float: left'  onclick='hideReference("+moment+")'>隐藏文献列表</div>";
-            $('#'+id).html(str);
-        }
-    });
+    var btnid='btnReference'+momentid;
+    var addToResearch='addToResearch'+momentid;
+    var referenceTable='referenceTable'+momentid;
+    var hideBtn='hideBtn'+momentid;
+
+    document.getElementById(referenceTable).style.display="";
+    document.getElementById(hideBtn).style.display="";
+    //document.getElementById(addToResearch).style.display="";
+    $('#'+btnid).hide();
+
 }
 
-function hideReference(moment) {
+function hideReference(momentid) {
     var str="";
-    var id='reference'+moment;
-    str+="<div class=\" am-radius\" style='float: left'></div>";
+    var btnid='btnReference'+momentid;
+    var addToResearch='addToResearch'+momentid;
+    var referenceTable='referenceTable'+momentid;
+    var hideBtn='hideBtn'+momentid;
+
+    document.getElementById(referenceTable).style.display="none";
+    document.getElementById(hideBtn).style.display="none";
+   // document.getElementById(addToResearch).style.display="none";
+    $('#'+btnid).show();
     $('#'+id).html(str);
 }
 
